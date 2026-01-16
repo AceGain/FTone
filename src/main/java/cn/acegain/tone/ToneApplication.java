@@ -1,4 +1,4 @@
-package cn.acegain.tone.tiny;
+package cn.acegain.tone;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

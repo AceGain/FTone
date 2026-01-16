@@ -1,5 +1,5 @@
 server:
-  port: 2025
+  port: 5221
   servlet:
     context-path: /api
 
@@ -7,3 +7,34 @@ spring:
   application:
     name: stone
     version: 0.0.1-SNAPSHOT
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 50
+      connection-timeout: 30000
+      validation-timeout: 5000
+      idle-timeout: 60000
+      max-lifetime: 1800000
+      keepalive-time: 30000
+      connection-test-query: SELECT 1
+      auto-commit: true
+      pool-name: tone-pool
+
+mybatis-flex:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  executor-type: REUSE
+  global-config:
+    print-banner: false
+    key-config:
+      before: true
+      key-type: Generator
+      value: flexId
+  configuration:
+    cache-enabled: true
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+  datasource:
+    master:
+      driver-class-name: org.sqlite.JDBC
+      url: jdbc:sqlite:db/stone.db
