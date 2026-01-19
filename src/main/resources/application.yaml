@@ -38,3 +38,11 @@ mybatis-flex:
     master:
       driver-class-name: org.sqlite.JDBC
       url: jdbc:sqlite:db/stone.db
+
+hutool:
+  captcha:
+    type: Circle
+    width: 200
+    height: 100
+    length: 5
+    stain: 0
