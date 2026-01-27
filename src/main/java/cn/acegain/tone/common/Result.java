@@ -58,11 +58,11 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> failure() {
-        return new Result<>("error", "400", "请求失败");
+        return new Result<>("failure", "400", "请求失败");
     }
 
     public static <T> Result<T> failure(String code, String message) {
-        return new Result<>("error", code, message);
+        return new Result<>("failure", code, message);
     }
 
     public static <T> Result<T> error() {

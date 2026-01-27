@@ -37,7 +37,7 @@ mybatis-flex:
   datasource:
     master:
       driver-class-name: org.sqlite.JDBC
-      url: jdbc:sqlite:db/stone.db
+      url: jdbc:sqlite:db/tone.db
 
 hutool:
   captcha:
