@@ -32,7 +32,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         // 查询用户信息，查询不到时抛出 UsernameNotFoundException 异常。
         AuthDetails authDetails = authService.loadUserByUsername(account);
         // 创建已经认证 authentication 对象并返回；
-            return JwtAuthenticationToken.authenticated(account, token, authDetails.getAuthorities());
+        String channel = jwt.getPayload(Jose.Payload.AUDIENCE).toString();
+        return JwtAuthenticationToken.authenticated(channel, token, authDetails.getAuthorities());
     }
 
     /**
