@@ -41,8 +41,13 @@ mybatis-flex:
 
 tone:
   captcha:
-    type: Circle
+    type: Line
     width: 200
     height: 100
     length: 5
     stain: 0
+  jwt:
+    issuer: FTone
+    secret: qwertyuiopasdfghjklzxcvbnm1234567890+-*/=
+    offset: 120
+    leeway: 5

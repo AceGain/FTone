@@ -1,8 +1,6 @@
 package cn.acegain.tone.base.security;
 
 import cn.acegain.tone.base.jwt.JwtService;
-import cn.acegain.tone.system.service.SysUserService;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,7 +24,6 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class WebSecurityConfig {
 
     @Bean
@@ -35,27 +31,12 @@ public class WebSecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return new AuthService();
-//    }
-
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(AuthService authService) {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(authService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
-    }
-
-    @Bean
-    public JwtAuthenticationProvider jwtAuthenticationProvider(JwtService jwtService, AuthService authService) {
-        return new JwtAuthenticationProvider(jwtService, authService);
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(JwtAuthenticationProvider jwtAuthenticationProvider,
-                                                       DaoAuthenticationProvider daoAuthenticationProvider) {
-        return new ProviderManager(List.of(jwtAuthenticationProvider, daoAuthenticationProvider));
+    public AuthenticationManager authenticationManager(JwtService jwtService, AuthService authService) {
+        JwtAuthenticationProvider jwtProvider = new JwtAuthenticationProvider(jwtService, authService);
+        DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider(authService);
+        daoProvider.setPasswordEncoder(passwordEncoder());
+        return new ProviderManager(List.of(jwtProvider, daoProvider));
     }
 
     @Bean

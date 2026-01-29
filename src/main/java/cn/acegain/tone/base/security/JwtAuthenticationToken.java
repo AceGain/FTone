@@ -12,22 +12,26 @@ import java.util.Collection;
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     @Getter
+    private String channel;
+
+    @Getter
     private String token;
 
-    public JwtAuthenticationToken(String token, Collection<? extends GrantedAuthority> authorities) {
+    public JwtAuthenticationToken(String channel, String token, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         Assert.notNull(token, "token cannot be null");
         this.token = token;
+        this.channel = channel;
     }
 
-    public static JwtAuthenticationToken unauthenticated(String token) {
-        JwtAuthenticationToken authToken = new JwtAuthenticationToken(token, null);
+    public static JwtAuthenticationToken unauthenticated(String channel, String token) {
+        JwtAuthenticationToken authToken = new JwtAuthenticationToken(channel, token, null);
         authToken.setAuthenticated(false);
         return authToken;
     }
 
-    public static JwtAuthenticationToken authenticated(String token, Collection<? extends GrantedAuthority> authorities) {
-        JwtAuthenticationToken authToken = new JwtAuthenticationToken(token, authorities);
+    public static JwtAuthenticationToken authenticated(String channel, String token, Collection<? extends GrantedAuthority> authorities) {
+        JwtAuthenticationToken authToken = new JwtAuthenticationToken(channel, token, authorities);
         authToken.setAuthenticated(true);
         return authToken;
     }
