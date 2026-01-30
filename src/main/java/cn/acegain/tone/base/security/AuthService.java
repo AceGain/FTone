@@ -3,7 +3,6 @@ package cn.acegain.tone.base.security;
 import cn.acegain.tone.system.entity.SysUser;
 import cn.acegain.tone.system.service.SysUserService;
 import com.mybatisflex.core.query.QueryWrapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
 
     @Autowired
