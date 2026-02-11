@@ -20,6 +20,8 @@ spring:
       connection-test-query: SELECT 1
       auto-commit: true
       pool-name: tone-pool
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:db/tone.db
 
 mybatis-flex:
   mapper-locations: classpath*:/mapper/**/*.xml
@@ -34,10 +36,6 @@ mybatis-flex:
     cache-enabled: true
     lazy-loading-enabled: true
     aggressive-lazy-loading: false
-  datasource:
-    master:
-      driver-class-name: org.sqlite.JDBC
-      url: jdbc:sqlite:db/tone.db
 
 tone:
   captcha:
