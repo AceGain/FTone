@@ -17,7 +17,7 @@ public class Result<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private String status;
+    private Status status;
 
     private Object code;
 
@@ -29,7 +29,7 @@ public class Result<T> implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    public Result(String status, Object code, String message, T data) {
+    public Result(Status status, Object code, String message, T data) {
         this.status = status;
         this.code = code;
         this.message = message;
@@ -37,40 +37,50 @@ public class Result<T> implements Serializable {
         this.data = data;
     }
 
-    public Result(String status, Object code, String message) {
+    public Result(Status status, Object code, String message) {
         this(status, code, message, null);
     }
 
     public static <T> Result<T> success() {
-        return new Result<>("success", 200, "请求成功");
+        return new Result<>(Status.Success, 200, "请求成功");
     }
 
     public static <T> Result<T> success(T data) {
-        return new Result<>("success", 200, "请求成功", data);
+        return new Result<>(Status.Success, 200, "请求成功", data);
     }
 
     public static <T> Result<T> success(Object code, String message) {
-        return new Result<>("success", code, message);
+        return new Result<>(Status.Success, code, message);
     }
 
     public static <T> Result<T> success(Object code, String message, T data) {
-        return new Result<>("success", code, message, data);
+        return new Result<>(Status.Success, code, message, data);
     }
 
     public static <T> Result<T> failure() {
-        return new Result<>("failure", 400, "请求失败");
+        return new Result<>(Status.Failure, 400, "请求失败");
     }
 
     public static <T> Result<T> failure(Object code, String message) {
-        return new Result<>("failure", code, message);
+        return new Result<>(Status.Failure, code, message);
     }
 
     public static <T> Result<T> error() {
-        return new Result<>("error", 500, "请求异常");
+        return new Result<>(Status.Error, 500, "请求异常");
     }
 
     public static <T> Result<T> error(Object code, String message) {
-        return new Result<>("error", code, message);
+        return new Result<>(Status.Error, code, message);
+    }
+
+    public enum Status {
+
+        Success,
+
+        Failure,
+
+        Error
+
     }
 
 }
