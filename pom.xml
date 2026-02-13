@@ -50,12 +50,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <scope>runtime</scope>
@@ -76,6 +70,12 @@
             <groupId>com.mybatis-flex</groupId>
             <artifactId>mybatis-flex-processor</artifactId>
             <version>${mybatis.flex.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -104,7 +104,6 @@
             <artifactId>qiniu-java-sdk</artifactId>
             <version>${qiniu.version}</version>
         </dependency>
-
     </dependencies>
 
     <dependencyManagement>
