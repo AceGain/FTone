@@ -21,6 +21,7 @@ mybatis-flex:
     cache-enabled: true
     lazy-loading-enabled: true
     aggressive-lazy-loading: false
+  default-datasource-key: master
   datasource:
     master:
       driver-class-name: org.sqlite.JDBC
