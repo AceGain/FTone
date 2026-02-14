@@ -1,6 +1,6 @@
-package cn.acegain.tone.system.controller;
+package cn.acegain.tone.system.api;
 
-import cn.acegain.tone.common.controller.BaseController;
+import cn.acegain.tone.common.api.BaseApi;
 import cn.hutool.core.date.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
-public class ToneController implements BaseController {
+public class ToneApi implements BaseApi {
 
     @Autowired
     protected Environment environment;

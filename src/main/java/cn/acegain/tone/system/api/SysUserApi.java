@@ -1,7 +1,7 @@
-package cn.acegain.tone.system.controller;
+package cn.acegain.tone.system.api;
 
 import cn.acegain.tone.common.Result;
-import cn.acegain.tone.common.controller.WebController;
+import cn.acegain.tone.common.api.WebApi;
 import cn.acegain.tone.system.entity.SysUser;
 import cn.acegain.tone.system.service.SysUserService;
 import com.mybatisflex.core.paginate.Page;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/sys/user")
-public class SysUserController extends WebController<SysUser, SysUserService> {
+public class SysUserApi extends WebApi<SysUser, SysUserService> {
 
     @GetMapping("/page")
     public Result<Page<SysUser>> page(SysUser sysUser) {

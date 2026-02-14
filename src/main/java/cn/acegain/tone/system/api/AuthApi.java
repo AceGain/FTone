@@ -1,9 +1,9 @@
-package cn.acegain.tone.system.controller;
+package cn.acegain.tone.system.api;
 
 import cn.acegain.tone.base.jwt.JwtService;
 import cn.acegain.tone.base.security.AuthService;
 import cn.acegain.tone.common.Result;
-import cn.acegain.tone.common.controller.BaseController;
+import cn.acegain.tone.common.api.BaseApi;
 import cn.acegain.tone.system.entity.AuthForm;
 import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.captcha.AbstractCaptcha;
@@ -24,7 +24,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/")
-public class AuthController implements BaseController {
+public class AuthApi implements BaseApi {
 
     @Autowired
     private TimedCache<String, Object> timedCache;
