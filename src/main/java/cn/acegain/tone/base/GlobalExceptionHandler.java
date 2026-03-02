@@ -7,6 +7,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @RestControllerAdvice
@@ -17,6 +18,12 @@ public class GlobalExceptionHandler {
     public Result<String> exceptionHandler(Exception e) {
         log.error(e.getMessage());
         return Result.error(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "服务异常！");
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public Result<String> noResourceFoundExceptionHandler(Exception e) {
+        log.error(e.toString());
+        return Result.error(HttpServletResponse.SC_BAD_REQUEST, "未知请求！");
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
