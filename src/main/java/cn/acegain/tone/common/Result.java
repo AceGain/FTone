@@ -42,44 +42,44 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> success() {
-        return new Result<>(Status.Success, 200, "请求成功");
+        return new Result<>(Status.success, 200, "请求成功");
     }
 
     public static <T> Result<T> success(T data) {
-        return new Result<>(Status.Success, 200, "请求成功", data);
+        return new Result<>(Status.success, 200, "请求成功", data);
     }
 
     public static <T> Result<T> success(Object code, String message) {
-        return new Result<>(Status.Success, code, message);
+        return new Result<>(Status.success, code, message);
     }
 
     public static <T> Result<T> success(Object code, String message, T data) {
-        return new Result<>(Status.Success, code, message, data);
+        return new Result<>(Status.success, code, message, data);
     }
 
     public static <T> Result<T> failure() {
-        return new Result<>(Status.Failure, 400, "请求失败");
+        return new Result<>(Status.failure, 400, "请求失败");
     }
 
     public static <T> Result<T> failure(Object code, String message) {
-        return new Result<>(Status.Failure, code, message);
+        return new Result<>(Status.failure, code, message);
     }
 
     public static <T> Result<T> error() {
-        return new Result<>(Status.Error, 500, "请求异常");
+        return new Result<>(Status.error, 500, "请求异常");
     }
 
     public static <T> Result<T> error(Object code, String message) {
-        return new Result<>(Status.Error, code, message);
+        return new Result<>(Status.error, code, message);
     }
 
     public enum Status {
 
-        Success,
+        success,
 
-        Failure,
+        failure,
 
-        Error
+        error
 
     }
 

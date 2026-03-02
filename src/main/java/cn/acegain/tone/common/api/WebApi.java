@@ -58,13 +58,8 @@ public abstract class WebApi<T extends BaseEntity, S extends IService<T>> implem
     }
 
     protected Result<T> updateById(T entity) {
-        try {
-            service.updateById(entity);
-            return Result.success();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return Result.error();
-        }
+        service.updateById(entity);
+        return Result.success();
     }
 
     protected Result<List<T>> list(T entity) {
