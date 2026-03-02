@@ -26,7 +26,7 @@ public class Result<T> implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date dataTime;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private T data;
 
     public Result(Status status, Object code, String message, T data) {
