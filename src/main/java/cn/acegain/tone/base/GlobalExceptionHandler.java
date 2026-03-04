@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.jdbc.support.MetaDataAccessException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -34,7 +35,15 @@ public class GlobalExceptionHandler {
             return Result.error(code, "请求体不能为空！");
         }
         log.error(message);
-        return Result.error(code, "服务异常！");
+        return Result.error(code, "请求服务异常！");
+    }
+
+    @ExceptionHandler(MetaDataAccessException.class)
+    public Result<String> metaDataAccessExceptionHandler(MetaDataAccessException e) {
+        Object code = HttpServletResponse.SC_BAD_REQUEST;
+        String message = e.getMessage();
+        log.error(message);
+        return Result.error(code, "数据服务异常！！");
     }
 
 }
