@@ -12,10 +12,10 @@ import java.util.Collection;
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     @Getter
-    private String channel;
+    private final String channel;
 
     @Getter
-    private String token;
+    private final String token;
 
     public JwtAuthenticationToken(String channel, String token, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);

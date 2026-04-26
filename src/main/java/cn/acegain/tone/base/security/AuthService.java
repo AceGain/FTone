@@ -20,6 +20,9 @@ public class AuthService implements UserDetailsService {
     public AuthDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         QueryWrapper queryWrapper = QueryWrapper.create().eq(SysUser::getAccount, username);
         SysUser user = userService.getOne(queryWrapper);
+        if (user == null) {
+            throw new UsernameNotFoundException("用户不存在！");
+        }
         AuthDetails authDetails = new AuthDetails();
         authDetails.setName(user.getName());
         authDetails.setStatus(user.getStatus());

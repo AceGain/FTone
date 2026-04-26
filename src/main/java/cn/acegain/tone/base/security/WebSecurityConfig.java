@@ -1,7 +1,9 @@
 package cn.acegain.tone.base.security;
 
 import cn.acegain.tone.base.jwt.JwtService;
+import cn.hutool.cache.impl.TimedCache;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,8 +34,10 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(JwtService jwtService, AuthService authService) {
-        JwtAuthenticationProvider jwtProvider = new JwtAuthenticationProvider(jwtService, authService);
+    public AuthenticationManager authenticationManager(
+            JwtService jwtService, AuthService authService,
+            @Qualifier("tokenCache") TimedCache<String, Object> tokenCache) {
+        JwtAuthenticationProvider jwtProvider = new JwtAuthenticationProvider(jwtService, authService, tokenCache);
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider(authService);
         daoProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(List.of(jwtProvider, daoProvider));

@@ -8,12 +8,12 @@ import cn.acegain.tone.system.entity.AuthForm;
 import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.jwt.JWT;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class AuthApi implements BaseApi {
     private AuthenticationManager authenticationManager;
 
     @GetMapping("/captcha")
-    public Result<?> captcha() throws IOException {
+    public Result<?> captcha() {
         // 生成新的验证码
         captchaService.createCode();
         String code = captchaService.getCode();
@@ -73,20 +73,30 @@ public class AuthApi implements BaseApi {
 //            return Result.failure("300", "验证码错误");
 //        }
 
-        String uuid = IdUtil.fastUUID();
-        authForm.setUuid(uuid);
-        String token = jwtService.create(authForm);
-        tokenCache.put(uuid, token, Duration.ofMinutes(10).toMillis());
-
-        try{
+        // 先验证用户名密码
+        try {
             UsernamePasswordAuthenticationToken authReq =
                     new UsernamePasswordAuthenticationToken(authForm.getAccount(), authForm.getPassword());
-            Authentication auth = authenticationManager.authenticate(authReq);
-        }catch (Exception e){
-            e.printStackTrace();
-            return Result.failure("401","username or password invalid");
+            authenticationManager.authenticate(authReq);
+        } catch (Exception e) {
+            return Result.failure("401", "用户名或密码无效！");
         }
-        return Result.success(token);
+
+        // 认证成功后生成 token
+        String uuid = IdUtil.fastUUID();
+        authForm.setUuid(uuid);
+        String accessToken = jwtService.create(authForm);
+        tokenCache.put(uuid, accessToken);
+
+        return Result.success(accessToken);
+    }
+
+    @PostMapping("/logout")
+    public Result<?> logout(@RequestHeader("T-Auth") String token) {
+        JWT jwt = jwtService.parse(token);
+        String jti = jwt.getPayload("jti").toString();
+        tokenCache.remove(jti);
+        return Result.success();
     }
 
 }

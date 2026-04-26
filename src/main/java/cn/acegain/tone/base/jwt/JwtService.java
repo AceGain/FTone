@@ -14,38 +14,26 @@ public class JwtService {
 
     private final JwtProperties properties;
 
-    private final String issuer;
-
-    private final byte[] key;
-
-    private final int offset;
-
-    private final int leeway;
-
     public JwtService(JwtProperties properties) {
         this.properties = properties;
-        this.issuer = properties.getIssuer();
-        this.key = properties.getKey();
-        this.offset = properties.getOffset();
-        this.leeway = properties.getLeeway();
     }
 
     public String create(AuthForm authForm) {
         JWT jwt = JWT.create();
-        jwt.setPayload(Jose.Payload.ISSUER, this.issuer);
+        jwt.setPayload(Jose.Payload.ISSUER, properties.getIssuer());
         jwt.setPayload(Jose.Payload.SUBJECT, authForm.getAccount());
         jwt.setPayload(Jose.Payload.AUDIENCE, authForm.getChannel());
         DateTime issuedAt = DateUtil.date();
         jwt.setPayload(Jose.Payload.ISSUED_AT, issuedAt);
-        DateTime expiresAt = DateUtil.offsetMinute(issuedAt, this.offset);
+        DateTime expiresAt = DateUtil.offsetMinute(issuedAt, properties.getOffset());
         jwt.setPayload(Jose.Payload.EXPIRES_AT, expiresAt);
         jwt.setPayload(Jose.Payload.JWT_ID, authForm.getUuid());
-        jwt.setKey(this.key);
+        jwt.setKey(properties.getKey());
         return jwt.sign();
     }
 
     public JWT parse(String token) {
-        return JWT.of(token).setKey(this.key);
+        return JWT.of(token).setKey(properties.getKey());
     }
 
     /**
@@ -55,7 +43,7 @@ public class JwtService {
      * @return true/false
      */
     public boolean verify(String token) {
-        return JWT.of(token).setKey(this.key).verify();
+        return JWT.of(token).setKey(properties.getKey()).verify();
     }
 
     /**
@@ -65,9 +53,7 @@ public class JwtService {
      * @return true/false
      */
     public boolean validate(String token) {
-        JWT jwt = JWT.of(token);
-        jwt.setKey(this.key);
-        return jwt.validate(0);
+        return JWT.of(token).setKey(properties.getKey()).validate(properties.getLeeway());
     }
 
     public void refresh(String token) {

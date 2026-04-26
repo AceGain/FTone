@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: stone
+    name: FTone
     version: 0.0.1-SNAPSHOT
 
 mybatis-flex:
